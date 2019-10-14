@@ -1,4 +1,4 @@
-function [Price] = GTSPFPDE(S0,K,r,T,Nx,Nt,Cp,Cm,Lp,Lm,Ap,Am)
+function [Price] = GTSPFPDE(S0,K,r,q,T,Nx,Nt,Cp,Cm,Lp,Lm,Ap,Am)
 xmax=log(4*K);
 xmin=-xmax;
 
@@ -7,11 +7,11 @@ Xi=(xmin:dx:xmax)';
 
 dt=T/(Nt-1);
 tauj=0:dt:T;
-nu = Cp*gamma(-Ap)*((Lp-1)^Ap-Lp^Ap+Ap*Lp^(Ap-1)) + Cm*gamma(-Am)*((Lm-1)^Am-Lm^Am+Am*Lm^(Am-1));
+nu = Cp*gamma(-Ap)*((Lp-1)^Ap-Lp^Ap+Ap*Lp^(Ap-1)) + Cm*gamma(-Am)*((Lm+1)^Am-Lm^Am-Am*Lm^(Am-1));
 
-a = -dt/(2*dx) * (r - nu + gamma(-Ap)*Cp*Ap*Lp^(Ap-1)-gamma(-Am)*Cm*Am*Lm^(Am-1));
+a = -dt/(2*dx) * (r - q - nu  + gamma(-Ap)*Cp*Ap*Lp^(Ap-1)-gamma(-Am)*Cm*Am*Lm^(Am-1));
 b = dt * (r + gamma(-Ap)*Cp*Lp^(Ap)+gamma(-Am)*Cm*Lm^(Am));
-c = dt/(2*dx) * (r - nu + gamma(-Ap)*Cp*Ap*Lp^(Ap-1)-gamma(-Am)*Cm*Am*Lm^(Am-1));
+c = dt/(2*dx) * (r - q - nu  + gamma(-Ap)*Cp*Ap*Lp^(Ap-1)-gamma(-Am)*Cm*Am*Lm^(Am-1));
 
 qsi=zeros(Nx,1);
 eta=zeros(Nx,1);
